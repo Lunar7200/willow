@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Valentine's Day</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #FFB6C1, #FFC0CB); /* Lighter, prettier pink */
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      overflow: hidden;
+      cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><text x="0" y="18" font-size="20" fill="%23FF69B4">💖</text></svg>'), auto; /* Kawaii heart cursor */
+    }
+
+    .container {
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    h1 {
+      color: #FFF0F5; /* Soft white-pink */
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    .button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      color: #FFF0F5;
+      background-color: #FF69B4; /* Brighter pink */
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      margin: 10px;
+      position: absolute;
+      transition: all 0.3s ease;
+      box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .button:hover {
+      background-color: #FF1493; /* Darker pink on hover */
+      transform: scale(1.1); /* Cute hover effect */
+    }
+
+    #button1 {
+      position: static; /* "Yes" button stays in place */
+      margin: 10px auto; /* Center the "Yes" button */
+    }
+
+    .heart-shape {
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #FFF0F5;
+      transform: rotate(-45deg);
+      animation: float 6s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    .heart-shape::before,
+    .heart-shape::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      background: #FFF0F5;
+      border-radius: 50%;
+    }
+
+    .heart-shape::before {
+      top: -30px;
+      left: 0;
+    }
+
+    .heart-shape::after {
+      top: 0;
+      left: 30px;
+    }
+
+    .heart {
+      position: absolute;
+      color: #FF69B4; /* Brighter pink */
+      font-size: 1.5rem;
+      animation: float 5s infinite ease-in-out;
+      z-index: 0;
+    }
+
+    .heart::before {
+      content: '💖'; /* Prettier heart emoji */
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-20px);
+      }
+    }
+
+    .decor {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    .decor .heart {
+      position: absolute;
+      font-size: 2rem;
+      color: #FF69B4;
+      animation: float 7s infinite ease-in-out;
+    }
+
+    .decor .heart:nth-child(1) {
+      top: 10%;
+      left: 20%;
+    }
+
+    .decor .heart:nth-child(2) {
+      top: 30%;
+      left: 80%;
+    }
+
+    .decor .heart:nth-child(3) {
+      top: 50%;
+      left: 10%;
+    }
+
+    .decor .heart:nth-child(4) {
+      top: 70%;
+      left: 70%;
+    }
+
+    .decor .heart:nth-child(5) {
+      top: 90%;
+      left: 40%;
+    }
+
+    /* Confetti Animation */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #FF69B4;
+      animation: confetti-fall 2s linear infinite;
+      z-index: 1000;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+      }
+    }
+
+    /* Sparkle Animation */
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #FFF0F5;
+      border-radius: 50%;
+      animation: sparkle 1.5s infinite ease-in-out;
+      z-index: 1000;
+    }
+
+    @keyframes sparkle {
+      0%, 100% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.5);
+      }
+    }
+
+    /* Second Page Styles */
+    #second-page {
+      display: none;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    #second-page h1 {
+      font-size: 2.5rem;
+      color: #FFF0F5;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    #second-page p {
+      font-size: 1.5rem;
+      color: #FFF0F5;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Third Page Styles */
+    #third-page {
+      display: none;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      max-width: 600px;
+      padding: 20px;
+    }
+
+    #third-page h1 {
+      font-size: 2.5rem;
+      color: #FFF0F5;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      margin-bottom: 20px;
+    }
+
+    #third-page p {
+      font-size: 1.2rem;
+      color: #FFF0F5;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+      line-height: 1.6;
+    }
+
+    /* Responsive Design for Mobile */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      .button {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+
+      .heart-shape {
+        width: 50px;
+        height: 50px;
+      }
+
+      .heart-shape::before,
+      .heart-shape::after {
+        width: 50px;
+        height: 50px;
+      }
+
+      .heart-shape::before {
+        top: -25px;
+      }
+
+      .heart-shape::after {
+        left: 25px;
+      }
+
+      .heart {
+        font-size: 1.2rem;
+      }
+
+      .decor .heart {
+        font-size: 1.5rem;
+      }
+
+      #second-page h1 {
+        font-size: 2rem;
+      }
+
+      #second-page p {
+        font-size: 1.2rem;
+      }
+
+      #third-page h1 {
+        font-size: 2rem;
+      }
+
+      #third-page p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- First Page -->
+  <div class="container" id="first-page">
+    <h1>Will You Be My Valentine?</h1>
+    <button class="button" id="button1">Yes</button>
+    <button class="button" id="button2" style="top: 50%; left: 60%;">No</button>
+  </div>
+
+  <!-- Second Page -->
+  <div class="container" id="second-page">
+    <h1>I LOVE YOU SO MUCH WILLOW 💖</h1>
+    <p>NOW BE MY WIFE 🫶</p>
+    <button class="button" id="button3">Read More</button>
+  </div>
+
+  <!-- Third Page -->
+  <div class="container" id="third-page">
+    <h1>To My Love 💖</h1>
+    <p>
+      I just want to take a moment to say how incredibly lucky I am to have you in my life, cupcake. You’re my best friend, my partner, and the love of my life. <33333 Every day with you feels like a new adventure, and I wouldn’t want to do this whole life thing with anyone else. You make my heart so full, and your smile is honestly the best part of my day :33 😊❤️. I love you more than words can even say, and I’m so grateful for all the little moments we share. Happy Valentine’s Day, my love! 💖🌹
+    </p>
+  </div>
+
+  <!-- Decorative Hearts -->
+  <div class="decor">
+    <div class="heart-shape" style="top: 10%; left: 10%;"></div>
+    <div class="heart-shape" style="top: 20%; left: 80%;"></div>
+    <div class="heart-shape" style="top: 5%; left: 50%;"></div>
+    <div class="heart">💖</div>
+    <div class="heart">💖</div>
+    <div class="heart">💖</div>
+    <div class="heart">💖</div>
+    <div class="heart">💖</div>
+  </div>
+
+  <script>
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    const button3 = document.getElementById('button3');
+    const firstPage = document.getElementById('first-page');
+    const secondPage = document.getElementById('second-page');
+    const thirdPage = document.getElementById('third-page');
+
+    // Make "No" button move around
+    button2.addEventListener('mouseover', () => {
+      moveButton(button2);
+    });
+
+    function moveButton(button) {
+      const x = Math.random() * (window.innerWidth - button.offsetWidth);
+      const y = Math.random() * (window.innerHeight - button.offsetHeight);
+      button.style.left = `${x}px`;
+      button.style.top = `${y}px`;
+    }
+
+    // Make "Yes" button go to the second page with confetti
+    button1.addEventListener('click', () => {
+      firstPage.style.display = 'none';
+      secondPage.style.display = 'block';
+      createConfetti();
+    });
+
+    // Make "Read More" button go to the third page with sparkles
+    button3.addEventListener('click', () => {
+      secondPage.style.display = 'none';
+      thirdPage.style.display = 'block';
+      createSparkles();
+    });
+
+    // Confetti Animation
+    function createConfetti() {
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.animationDelay = `${Math.random() * 2}s`;
+        confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 75%)`;
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 2000);
+      }
+    }
+
+    // Sparkle Animation
+    function createSparkles() {
+      for (let i = 0; i < 50; i++) {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.left = `${Math.random() * 100}vw`;
+        sparkle.style.top = `${Math.random() * 100}vh`;
+        sparkle.style.animationDelay = `${Math.random() * 1}s`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1500);
+      }
+    }
+  </script>
+</body>
+</html>
